@@ -8,7 +8,7 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Initialize Stripe
 
 const calculateTotalsHandler = async (req, res) => {
   // Assuming userId is available from authMiddleware
-  const userId = req.user._id; // Adjust based on how your authMiddleware adds user info
+  const userId = req.userId; // Adjust based on how your authMiddleware adds user info
   const { cartItems, shippingAddress } = req.body; // Get shippingAddress from body
 
   if (!userId) {
