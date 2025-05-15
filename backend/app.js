@@ -11,6 +11,9 @@ import productRoutes from './routes/api/products/index.js';
 import userRoutes from './routes/api/user/index.js';
 import cartRoutes from './routes/api/cart/index.js';
 import userProfileRoutes from './routes/api/userProfile/index.js';
+import paymentRoutes from './routes/api/payments/index.js';
+import stripeWebhookRoutes from './routes/api/webhooks/stripe.js'; // Import webhook routes
+import orderRoutes from './routes/api/orders/index.js'; // Import order routes
 
 const app = express();
 
@@ -24,14 +27,20 @@ app.use(cors());
 app.use(express.static(join(__dirname, '../frontend/dist'))); // Serve the built static files of the React app
 app.use('/assets', express.static(join(__dirname, '../frontend/assets')));
 
+// Stripe webhook requires the raw body, so we add a middleware to make it available
+// This middleware should be applied ONLY to the webhook route and BEFORE express.json()
+app.use('/api/webhooks/stripe', express.raw({type: 'application/json'}), stripeWebhookRoutes); // Mount webhook route
+
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.json()); // Apply express.json() AFTER the webhook route
 app.use(cookieParser());
 
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/user-profile', userProfileRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/orders', orderRoutes); // Mount order routes
 
 //keep alive mechanism
 app.get('/health', (req, res) => {
@@ -44,9 +53,9 @@ app.get('/health', (req, res) => {
 
 
 // Handle all other routes and return the React app
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, '../frontend/dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(join(__dirname, '../frontend/dist', 'index.html'));
+// });
 
 //Implementing FIle Logger
 app.use(morgan(':method - :url - :date - :response-time ms'));

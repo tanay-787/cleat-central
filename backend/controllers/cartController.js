@@ -1,6 +1,7 @@
-// controllers/cartController.js
+// backend/controllers/cartController.js
 import Cart from "../models/cart.js";
 import Product from "../models/product.js";
+import Order from "../models/order.js"; // Import the Order model
 import mongoose from 'mongoose';
 
 //Get Cart
@@ -101,7 +102,7 @@ export const clearCart = async (userId) => {
     const cart = await Cart.findOne({ userId });
 
     if (!cart) {
-      return res.status(404).json({ error: 'Cart not found' });
+      return Promise.reject('Cart not found');
     }
 
     cart.items = [];
@@ -110,5 +111,49 @@ export const clearCart = async (userId) => {
     return Promise.resolve(cart);
   } catch (error) {
     return Promise.reject(error);
+  }
+};
+
+// Function to calculate cart totals and create a pending order
+export const calculateCartTotals = async (userId, cartItems, shippingAddress = {}) => {
+  if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
+    throw new Error('Cart is empty or invalid.');
+  }
+
+  try {
+    // Calculate subtotal (assuming cartItems have price and quantity)
+    // TODO: In a production app, fetch product prices from DB to prevent manipulation
+    const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    // Calculate shipping cost based on current logic
+    const shippingCost = subtotal > 14000 ? 0 : 500;
+
+    const total = subtotal + shippingCost;
+
+    // Create a new order in the database
+    const order = new Order({
+      userId: userId,
+      items: cartItems.map(item => ({
+        productId: item.productId,
+        name: item.name,
+        price: item.price, // Using price from cartItems for now
+        image: item.image,
+        size: item.size,
+        quantity: item.quantity,
+      })),
+      subtotal: subtotal,
+      shippingCost: shippingCost,
+      total: total,
+      shippingAddress: shippingAddress,
+      paymentStatus: 'pending',
+    });
+
+    await order.save();
+
+    return order; // Return the created order object
+
+  } catch (error) {
+    console.error('Error calculating cart totals or creating order:', error);
+    throw new Error('Failed to process order.');
   }
 };

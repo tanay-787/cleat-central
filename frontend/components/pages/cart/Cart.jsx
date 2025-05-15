@@ -18,6 +18,7 @@ export default function Cart() {
   const { cart, loading, error, removeFromCart, updateQuantity, fetchCart } = useCart();
   const { toast } = useToast();
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [calculatedTotals, setCalculatedTotals] = useState(null);
 
   const initializeCart = useCallback(async () => {
     setIsInitialLoading(true);
@@ -30,6 +31,44 @@ export default function Cart() {
   useEffect(() => {
     initializeCart();
   }, [initializeCart]);
+
+  const fetchCartTotals = useCallback(async (currentCart) => {
+    if (!currentCart || currentCart.length === 0) {
+      setCalculatedTotals({ subtotal: 0, shippingCost: 0, total: 0 });
+      return;
+    }
+    try {
+      const response = await fetch('/api/cart/calculate-totals', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // Include authorization header if needed, e.g., 'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ cartItems: currentCart }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setCalculatedTotals(data);
+    } catch (error) {
+      console.error('Error fetching cart totals:', error);
+      toast({
+        title: "Error",
+        description: "Could not fetch cart totals.",
+        variant: "destructive",
+      });
+      setCalculatedTotals({ subtotal: 0, shippingCost: 0, total: 0 }); // Reset or set to default on error
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    if (isLoggedIn && cart) {
+      fetchCartTotals(cart);
+    }
+  }, [isLoggedIn, cart, fetchCartTotals]);
 
   useEffect(() => {
     if (error) {
@@ -52,6 +91,7 @@ export default function Cart() {
   const handleUpdateQuantity = async (productId, size, newQuantity) => {
     try {
       await updateQuantity(productId.toString(), size, newQuantity);
+      // fetchCartTotals(cart); // Cart context should handle state update and trigger useEffect
     } catch (error) {
       toast({
         title: "Error updating quantity",
@@ -64,6 +104,7 @@ export default function Cart() {
   const handleRemoveFromCart = async (productId, size) => {
     try {
       await removeFromCart(productId.toString(), size);
+      // fetchCartTotals(cart); // Cart context should handle state update and trigger useEffect
     } catch (error) {
       toast({
         title: "Error removing item",
@@ -71,6 +112,10 @@ export default function Cart() {
         variant: "destructive",
       });
     }
+  };
+
+  const handleProceedToCheckout = () => {
+    navigate('/checkout');
   };
 
   if (isInitialLoading) {
@@ -129,11 +174,10 @@ export default function Cart() {
     navigate(`/product-details/${productId}`);
   };
 
-
-
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingCost = subtotal > 14000 ? 0 : 500;
-  const total = subtotal + shippingCost;
+  // Remove local calculation
+  // const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  // const shippingCost = subtotal > 14000 ? 0 : 500;
+  // const total = subtotal + shippingCost;
 
   return (
     <Layout>
@@ -151,6 +195,7 @@ export default function Cart() {
                     <div>
                       <h2 className="text-xl font-semibold hover:underline" onClick={() => handleItemClick(item.productId)}>{item.name}</h2>
                       <p className="text-muted-foreground">Size: {item.size}</p>
+                      {/* Use item.price directly from cart data, but totals are fetched from backend */}
                       <p className="font-bold mt-2">₹ {item.price.toFixed(2)}</p>
                     </div>
                     <div className="flex items-center justify-between mt-4">
@@ -196,21 +241,31 @@ export default function Cart() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>₹ {subtotal.toFixed(2)}</span>
+                    {/* Use calculatedTotals state */}
+                    <span>₹ {calculatedTotals?.subtotal?.toFixed(2) || '0.00'}</span>
                   </div>
                   <div className="flex justify-between">
                     <ShippingInfo />
-                    <span>₹ {shippingCost === 0 ? 'Free' : shippingCost.toFixed(2)}</span>
+                    {/* Use calculatedTotals state */}
+                    <span>{calculatedTotals?.shippingCost === 0 ? 'Free' : `₹ ${calculatedTotals?.shippingCost?.toFixed(2) || '0.00'}`}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-bold">
                     <span>Total</span>
-                    <span>₹ {total.toFixed(2)}</span>
+                    {/* Use calculatedTotals state */}
+                    <span>₹ {calculatedTotals?.total?.toFixed(2) || '0.00'}</span>
                   </div>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">Proceed to Checkout</Button>
+                {/* Disable button if totals are not yet calculated or cart is empty */}
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+                  disabled={!calculatedTotals || calculatedTotals.total === 0}
+                  onClick={handleProceedToCheckout} // Add onClick handler
+                >
+                    Proceed to Checkout
+                </Button>
               </CardFooter>
             </Card>
           </div>

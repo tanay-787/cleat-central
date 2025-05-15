@@ -7,6 +7,7 @@ import AuthProvider from './components/context/AuthContext';
 import ProductsPage from "./components/pages/products-page/ProductsPage";
 import ProductDetails from "./components/pages/product-details/ProductDetails";
 import Cart from "./components/pages/cart/Cart";
+import CheckoutPage from "./components/pages/checkout/CheckoutPage";
 import { CartProvider } from './components/context/CartContext';
 import UserProfilePage from "./components/pages/user-profile/UserProfilePage";
 import KnowYourBoots from "./components/pages/blog/KnowYourBoots";
@@ -25,7 +26,7 @@ export default function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/blog" element={<KnowYourBoots />} />
-       
+       <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       </CartProvider>
     </AuthProvider>
