@@ -10,7 +10,7 @@ import { Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
 
 // Load Stripe outside of the component
 // Replace with your actual publishable key from environment variables in production
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(`${import.meta.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
 
 export default function OrderCompletePage() {
   const [searchParams] = useSearchParams();
