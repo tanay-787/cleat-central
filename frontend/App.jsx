@@ -11,6 +11,7 @@ import CheckoutPage from "./components/pages/checkout/CheckoutPage";
 import { CartProvider } from './components/context/CartContext';
 import UserProfilePage from "./components/pages/user-profile/UserProfilePage";
 import KnowYourBoots from "./components/pages/blog/KnowYourBoots";
+import OrderCompletePage from "./components/pages/order-complete/OrderCompletePage"; // Import OrderCompletePage
 
 export default function App() {
  
@@ -26,7 +27,8 @@ export default function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/blog" element={<KnowYourBoots />} />
-       <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/order-complete" element={<OrderCompletePage />} /> {/* Add route for OrderCompletePage */}
       </Routes>
       </CartProvider>
     </AuthProvider>
