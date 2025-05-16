@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import Stripe from 'stripe';
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = Stripe(`${process.env.STRIPE_SECRET_KEY}`);
 
 // Payment routes
 router.post('/create-payment-intent', async (req, res) => {

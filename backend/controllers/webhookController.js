@@ -4,8 +4,8 @@ import Stripe from 'stripe';
 import Order from '../models/order.js'; // Import the Order model
 import { clearCart } from './cartController.js'; // Import clearCart function
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const stripe = Stripe(`${process.env.STRIPE_SECRET_KEY}`);
+const endpointSecret = `${process.env.STRIPE_WEBHOOK_SECRET}`;
 
 export const handleStripeWebhook = async (request) => {
   const sig = request.headers['stripe-signature'];

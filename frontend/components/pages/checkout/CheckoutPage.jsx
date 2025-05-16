@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Load Stripe outside of the component to avoid recreating it on re-renders
 // Replace with your actual publishable key from environment variables in production
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(`${import.meta.env.VITE_REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
 
 export default function CheckoutPage() {
   const { cart } = useCart();

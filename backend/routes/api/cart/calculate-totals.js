@@ -4,7 +4,7 @@ import { calculateCartTotals } from '../../../controllers/cartController.js';
 import Stripe from 'stripe'; // Import Stripe
 import Order from '../../../models/order.js'; // Import Order model to update it with Payment Intent ID
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY); // Initialize Stripe
+const stripe = Stripe(`${process.env.STRIPE_SECRET_KEY}`); // Initialize Stripe
 
 const calculateTotalsHandler = async (req, res) => {
   // Assuming userId is available from authMiddleware

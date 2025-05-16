@@ -53,9 +53,9 @@ app.get('/health', (req, res) => {
 
 
 // Handle all other routes and return the React app
-// app.get('*', (req, res) => {
-//   res.sendFile(join(__dirname, '../frontend/dist', 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '../frontend/dist', 'index.html'));
+});
 
 //Implementing FIle Logger
 app.use(morgan(':method - :url - :date - :response-time ms'));
