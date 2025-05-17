@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
-import { loadStripe } from '@stripe/stripe-js';
+// Removed local loadStripe import
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import NavBar from '../shared-components/NavBar';
 import Footer from '../shared-components/Footer';
@@ -10,10 +10,9 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2, ShoppingBag } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from 'react-router-dom';
+import { stripePromise } from '../../utils/stripe'; // Import stripePromise from utility file
 
-// Load Stripe outside of the component to avoid recreating it on re-renders
-// Replace with your actual publishable key from environment variables in production
-const stripePromise = loadStripe(`${import.meta.env.VITE_REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
+// Removed local loadStripe call
 
 export default function CheckoutPage() {
   const { cart } = useCart();

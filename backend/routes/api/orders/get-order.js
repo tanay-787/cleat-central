@@ -4,7 +4,7 @@ import { getOrderById } from '../../../controllers/orderController.js';
 
 const getOrderHandler = async (req, res) => {
   const { orderId } = req.params; // Get orderId from URL parameters
-  const userId = req.user._id; // Assuming user is available from authMiddleware
+  const userId = req.userId; // Assuming user is available from authMiddleware
 
   if (!userId) {
     return res.status(401).json({ error: 'User not authenticated.' });

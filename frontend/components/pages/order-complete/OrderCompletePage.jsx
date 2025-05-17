@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { loadStripe } from '@stripe/stripe-js';
+// Removed local loadStripe import
 import NavBar from '../shared-components/NavBar';
 import Footer from '../shared-components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Loader2, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { stripePromise } from '../../utils/stripe'; // Import stripePromise from utility file
 
-// Load Stripe outside of the component
-// Replace with your actual publishable key from environment variables in production
-const stripePromise = loadStripe(`${import.meta.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}`);
+// Removed local loadStripe call
 
 export default function OrderCompletePage() {
   const [searchParams] = useSearchParams();
@@ -33,7 +32,7 @@ export default function OrderCompletePage() {
       }
 
       try {
-        const stripe = await stripePromise;
+        const stripe = await stripePromise; // Use the imported stripePromise
         const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
 
         let paymentStatus = 'error'; // Default status
