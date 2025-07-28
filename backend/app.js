@@ -39,7 +39,7 @@ app.get('/api/health', (req, res) => {
   }
 });
 
-
+ 
 
 //Implementing File Logger
 if(process.env.NODE_ENV === 'development'){
@@ -58,3 +58,4 @@ Promise.resolve(connectToDB()).then(() => {
   });
 });
 
+export default app;
