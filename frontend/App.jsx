@@ -1,15 +1,15 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./components/pages/home-page/LandingPage";
-import UserSignUp from "./components/pages/user-auth/UserSignUp";
-import UserLogIn from "./components/pages/user-auth/UserLogIn";
-import AuthProvider from './components/context/AuthContext'; 
-import ProductsPage from "./components/pages/products-page/ProductsPage";
-import ProductDetails from "./components/pages/product-details/ProductDetails";
-import Cart from "./components/pages/cart/Cart";
-import { CartProvider } from './components/context/CartContext';
-import UserProfilePage from "./components/pages/user-profile/UserProfilePage";
-import KnowYourBoots from "./components/pages/blog/KnowYourBoots";
+import LandingPage from "./src/pages/home-page/LandingPage";
+import UserSignUp from "./src/pages/user-auth/UserSignUp";
+import UserLogIn from "./src/pages/user-auth/UserLogIn";
+import AuthProvider from './src/context/AuthContext'; 
+import ProductsPage from "./src/pages/products-page/ProductsPage";
+import ProductDetails from "./src/pages/product-details/ProductDetails";
+import Cart from "./src/pages/cart/Cart";
+import { CartProvider } from './src/context/CartContext';
+import UserProfilePage from "./src/pages/user-profile/UserProfilePage";
+import KnowYourBoots from "./src/pages/blog/KnowYourBoots";
 
 export default function App() {
  
