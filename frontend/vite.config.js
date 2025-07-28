@@ -14,7 +14,7 @@ export default defineConfig({
     proxy: {
       "/api": {
                target: process.env.NODE_ENV === 'production' 
-                 ? "https://cleat-central.onrender.com"
+                 ? "https://cleat-central.vercel.app"
                  : "http://localhost:3000",
                 changeOrigin: true,
                 secure: true,

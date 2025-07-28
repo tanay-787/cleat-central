@@ -21,9 +21,6 @@ app.use(compression());
 
 app.use(cors());
 
-app.use(express.static(join(__dirname, '../frontend/dist'))); // Serve the built static files of the React app
-app.use('/assets', express.static(join(__dirname, '../frontend/assets')));
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -34,7 +31,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/user-profile', userProfileRoutes);
 
 //keep alive mechanism
-app.get('/health', (req, res) => {
+app.get('/api/health', (req, res) => {
   try {
       res.status(200).send('OK');
   } catch (error) {
@@ -43,18 +40,16 @@ app.get('/health', (req, res) => {
 });
 
 
-// Handle all other routes and return the React app
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, '../frontend/dist', 'index.html'));
-});
 
-//Implementing FIle Logger
-app.use(morgan(':method - :url - :date - :response-time ms'));
-app.use(
+//Implementing File Logger
+if(process.env.NODE_ENV === 'development'){
+  app.use(morgan(':method - :url - :date - :response-time ms'));
+  app.use(
   morgan(':method - :url - :date - :response-time ms', {
     stream: createWriteStream(logFile, { flags: 'a' }),
   })
 );
+}
 
 
 Promise.resolve(connectToDB()).then(() => {
