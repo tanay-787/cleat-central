@@ -9,18 +9,18 @@ FG, MG, TF, IC, High-Top, Low-Top
 }
 
 .bg-FG {
-    background-image: url("/assets/surface-types/firm-ground.jpg");
+    background-image: url("/surface-types/firm-ground.jpg");
 }
 
 .bg-MG {
-    background-image: url("/assets/surface-types/multi-ground.jpg");
+    background-image: url("/surface-types/multi-ground.jpg");
 }
 
 .bg-TF {
-    background-image: url("/assets/surface-types/turf.jpg");
+    background-image: url("/surface-types/turf.jpg");
 }
 
 .bg-IC {
-    background-image: url("/assets/surface-types/indoor-court.jpg");
+    background-image: url("/surface-types/indoor-court.jpg");
 }
 

@@ -43,7 +43,7 @@ export default function LandingPage() {
         <NavBar />
       </header>
       <main className="flex-grow">
-        <section className="relative bg-cover bg-center py-32" style={{ backgroundImage: "url('assets/hero-background.jfif')" }}>
+        <section className="relative bg-cover bg-center py-32" style={{ backgroundImage: "url('/hero-background.jfif')" }}>
           <div className="absolute inset-0 bg-black/60"></div>
           <div className="container mx-auto px-4 text-center relative z-10">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white">Step into Style and Performance</h1>
