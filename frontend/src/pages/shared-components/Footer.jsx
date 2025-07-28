@@ -40,18 +40,18 @@ export default function Footer() {
                     <div>
                         <h3 className="font-bold mb-4">Connect With Us</h3>
                         <div className="flex flex-col space-y-3">
-                            <a href="#" className="text-muted-foreground hover:text-foreground flex items-center">
+                            <Link to="#" className="text-muted-foreground hover:text-foreground flex items-center">
                                 <Facebook className="h-5 w-5 mr-1" />
                                 CleatsCentral
-                            </a>
-                            <a href="#" className="text-muted-foreground hover:text-foreground flex items-center">
+                            </Link>
+                            <Link to="#" className="text-muted-foreground hover:text-foreground flex items-center">
                                 <Twitter className="h-5 w-5 mr-1" />
                                 CleatsCentral
-                            </a>
-                            <a href="#" className="text-muted-foreground hover:text-foreground flex items-center">
+                            </Link>
+                            <Link to="#" className="text-muted-foreground hover:text-foreground flex items-center">
                                 <Instagram className="h-5 w-5 mr-1" />
                                 CleatsCentral
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

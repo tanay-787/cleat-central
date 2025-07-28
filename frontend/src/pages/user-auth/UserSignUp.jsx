@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -139,9 +139,9 @@ export default function UserSignUp() {
           </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <a href="/login-user" className="underline">
+            <Link to="/login-user" className="underline">
               Sign in
-            </a>
+            </Link>
           </div>
         </CardContent>
       </Card>

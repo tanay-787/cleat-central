@@ -63,10 +63,10 @@ export default function NavBar() {
             </div>
             <div className="flex items-center space-x-4">
                 <nav className="hidden md:flex space-x-4">
-                    <a href="/" className="text-md hover:underline">Home</a>
-                    <a href="/products-page" className="text-md hover:underline">Catalogue</a>
-                    <a href="/blog" className="text-md hover:underline">Blog</a>
-                    {/* <a href="#" className="text-md hover:underline">Contact Us</a> */}
+                <Link to="/" className="text-md hover:underline">Home</Link>
+                    <Link to="/products-page" className="text-md hover:underline">Catalogue</Link>
+                    <Link to="/blog" className="text-md hover:underline">Blog</Link>
+                    {/* <Link to="#" className="text-md hover:underline">Contact Us</Link> */}
                 </nav>
             </div>
             <div className="flex items-center space-x-2">
